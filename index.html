@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Calculadora de Cuotas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+    .calculadora h2 {
+    color: white;
+    font-size: 30px;
+    font-style: italic;
+  }
+
+  .contenedor {
+    position: relative;
+    height: 100vh; /* Establecer altura al 100% del alto de la pantalla */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .calculadora {
+    background-color: red;
+    width: 100%;
+    max-width: 300px; /* Ancho máximo para que coincida con el ancho de un celular */
+    display: inline-block;
+    margin: 20px;
+    padding: 20px;
+    box-shadow: 0px 0px 5px black;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+  }
+
+
+
+    .calculadora .input-wrapper {
+      text-align: right;
+      margin-bottom: 10px;
+    }
+
+    .calculadora .input-wrapper label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .calculadora .input-wrapper input[type="text"] {
+      width: 100%;
+      padding: 5px;
+      font-size: 16px;
+    }
+
+    .calculadora .button-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .calculadora .button-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
+  }
+
+  .button {
+    padding: 10px 20px;
+    text-transform: uppercase;
+    border-radius: 8px;
+    font-weight:bolder; /* Aumentar el peso de la fuente */
+    color: #ffffff80;
+    text-shadow: none;
+    box-shadow: transparent;
+    background-color: black;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 40px;
+    margin: 5px;
+    font-size: 16px;
+  }
+  
+    .calculadora .button {
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 40px;
+      margin: 5px;
+      font-size: 16px;
+    }
+
+    .calculadora .button-borrar {
+      align-items: center;
+      justify-content: center;
+      color: black;
+      width: 130px;
+      height: 40px;
+      margin: 5px;
+      font-size: 20px;
+     background-color: rgb(241, 241, 0);
+    }
+
+    .button-borrar {
+      padding: 10px 20px;
+      text-transform: uppercase;
+      border-radius: 8px;
+      font-style: bold;
+      color: #ffffff80;
+      text-shadow: none;
+      box-shadow: transparent;
+      background-color: black;
+      user-select: none;
+    }
+
+    .calculadora .results-wrapper {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .results-list {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .results-list label {
+      margin-bottom: 5px;
+    }
+
+    .results-list input[type="text"] {
+      width: 100%;
+      padding: 5px;
+      font-size: 16px;
+    }
+
+    .input-wrapper label,
+  .results-list label {
+    text-align: center;
+    color: white;
+    font-size: 20px;
+  }
+  .calculadora .input-wrapper input[type="text"],
+  .results-list input[type="text"] {
+    border-radius: 5px;
+  }
+  .results-list label {
+      margin-bottom: 10px; /* Aumenté el espacio entre las etiquetas y los inputs */
+    }
+
+    .results-list input[type="text"] {
+      width: 100%;
+      padding: 5px;
+      font-size: 16px;
+      margin-bottom: 8px; /* Aumenté el espacio entre los inputs */
+    }
+
+  @media screen and (max-width: 480px) {
+      .calculadora {
+        max-width: 100%;
+      }
+
+      .button {
+        width: 45px;
+        height: 30px;
+        margin: 3px;
+        font-size: 14px;
+      }
+
+      .calculadora .button-borrar {
+        width: 90px;
+        height: 30px;
+        margin: 3px;
+        font-size: 16px;
+      }
+
+      .results-list label {
+        font-size: 15px;
+      }
+
+      .results-list input[type="text"] {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="contenedor">
+  <div class="calculadora">
+    <h2>Calculadora</h2>
+    <div class="input-wrapper">
+      <label for="priceInput">Precio del producto:</label>
+      <input type="text" id="priceInput" placeholder="Ingrese un precio" oninput="calculateResults()">
+    </div>
+
+    <div class="button-wrapper">
+      <div class="button-row">
+        <button class="button" onclick="appendNumber(1)">1</button>
+        <button class="button" onclick="appendNumber(2)">2</button>
+        <button class="button" onclick="appendNumber(3)">3</button>
+      </div>
+      <div class="button-row">
+        <button class="button" onclick="appendNumber(4)">4</button>
+        <button class="button" onclick="appendNumber(5)">5</button>
+        <button class="button" onclick="appendNumber(6)">6</button>
+      </div>
+      <div class="button-row">
+        <button class="button" onclick="appendNumber(7)">7</button>
+        <button class="button" onclick="appendNumber(8)">8</button>
+        <button class="button" onclick="appendNumber(9)">9</button>
+      </div>
+      <div class="button-row">
+        <button class="button" onclick="appendNumber(0)">0</button>
+        <button class="button-borrar" onclick="deleteLastCharacter()">Borrar</button>
+      </div>
+    </div>
+
+    <div class="results-wrapper">
+      <div class="results-list">
+        <label for="result1">Tasa 0 a 3 meses:</label>
+        <input type="text" id="result1" readonly>
+        <br>
+        <label for="result2">Minicuotas a 12 meses:</label>
+        <input type="text" id="result2" readonly>
+        <br>
+        <label for="result3">Minicuotas a 18 meses:</label>
+        <input type="text" id="result3" readonly>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script>
+    function formatNumber(number) {
+      return number.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function calculateResults() {
+      var priceInput = document.getElementById("priceInput");
+      var price = parseFloat(priceInput.value.replace(/[^0-9.]/g, ''));
+
+      var result1 = document.getElementById("result1");
+      var result2 = document.getElementById("result2");
+      var result3 = document.getElementById("result3");
+
+      if (isNaN(price) || price === 0) {
+        result1.value = "Debe ingresar un precio";
+        result2.value = "Debe ingresar un precio";
+        result3.value = "Debe ingresar un precio";
+      } else {
+        var result1Value = "Cuota mensual ₡" + formatNumber(price / 3);
+        var result2Value = "Cuota mensual ₡" + formatNumber(((price * 0.0295 * 12 + price) / 12));
+        var result3Value = "Cuota mensual ₡" + formatNumber((price * 0.295 * 18 + price) / 18);
+
+        result1.value = result1Value;
+        result2.value = result2Value;
+        result3.value = result3Value;
+      }
+    }
+
+    function appendNumber(number) {
+      var priceInput = document.getElementById("priceInput");
+      priceInput.value += number.toString();
+      calculateResults();
+    }
+
+    function deleteLastCharacter() {
+      var priceInput = document.getElementById("priceInput");
+      priceInput.value = priceInput.value.slice(0, -1);
+      calculateResults();
+    }
+  </script>
+</body>
+</html>
